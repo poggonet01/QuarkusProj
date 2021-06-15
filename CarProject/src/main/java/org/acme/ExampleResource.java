@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -56,12 +57,22 @@ public class ExampleResource {
 	@Transactional
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/add")
-	public Response addCar(@QueryParam("id") int id , @QueryParam("name") String name,@QueryParam("color") String color) {
+	public Response addCar(@QueryParam("name") String name,@QueryParam("color") String color) {
 		Car car = new Car();
 		car.color = color;
 		car.name = name;
 		Car c = car.saveCar(car);
 		return Response.ok(c).build();
+	}
+	
+	@DELETE
+	@Transactional
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/delete")
+	public Response deleteCar(@QueryParam("id") Long id ) {
+		Car car = new Car();
+		boolean isDeleted = car.deleteCarById(id);
+		return Response.ok(isDeleted).build();
 	}
 	
 }

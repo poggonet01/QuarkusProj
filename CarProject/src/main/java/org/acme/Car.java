@@ -53,9 +53,9 @@ public class Car extends PanacheEntityBase {
 	
 	@Transactional
 	public Car saveCar(Car car) {
-		this.id = id;
 		this.color = car.color;
 		this.name = car.name;
+		persist();
 		return this;
 	}
 	
@@ -69,8 +69,8 @@ public class Car extends PanacheEntityBase {
 	}
 	
 	@Transactional
-	public void deleteCarByName(String name) {
-		delete("name", name);
+	public boolean deleteCarById(Long id) {
+		return deleteById(id);
 	}
 		
 
