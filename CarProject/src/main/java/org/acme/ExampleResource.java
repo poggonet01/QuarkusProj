@@ -3,7 +3,10 @@ package org.acme;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,11 +20,10 @@ import org.jboss.resteasy.annotations.Query;
 
 @Path("/v1/cars")
 public class ExampleResource {
-	public static List<String> cars = new ArrayList<String>();
-//	private final Car car;
-//	
-//    @Inject
-//    public ExampleResource(Car car) { this.car = car; }
+	private final Car car;
+	
+    @Inject
+    public ExampleResource(Car car) { this.car = car; }
 	 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
@@ -51,14 +53,15 @@ public class ExampleResource {
 	
 	
 	@POST
+	@Transactional
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/add")
-	public Response addCar(@QueryParam("name") String name) {
-		Car newCar = new Car();
-		newCar.id = (long) 12;
-		newCar.color = "dawawdfaff";
-		newCar.saveCar(newCar);
-		return Response.ok(newCar).build();
+	public Response addCar(@QueryParam("id") int id , @QueryParam("name") String name,@QueryParam("color") String color) {
+		Car car = new Car();
+		car.color = color;
+		car.name = name;
+		Car c = car.saveCar(car);
+		return Response.ok(c).build();
 	}
 	
 }
