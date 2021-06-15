@@ -1,11 +1,14 @@
 package org.acme;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -30,6 +33,11 @@ public class Car extends PanacheEntityBase {
 		this.color = color;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "Car [id=" + id + ", name=" + name + ", color=" + color + "]";
+	}
 	public Car findCarById(Long id) {
 		return findById(id);
 	}
@@ -37,6 +45,26 @@ public class Car extends PanacheEntityBase {
 	public Car findByName(String name) {
 		return find("name" , name).firstResult();
 	}
+	
+	@Transactional
+	public Car saveCar(Car car) {
+		this.color = car.color;
+		this.id = car.id;
+		this.name = car.name;
+		persistAndFlush();
+		return this;
+	}
+	
+	public List<Car> getAllCars() {
+		return listAll();
+	}
+	
+	@Transactional
+	public void deleteAllCars() {
+		deleteAll();
+	}
+	
+	@Transactional
 	public void deleteCarByName(String name) {
 		delete("name", name);
 	}
