@@ -5,14 +5,18 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.resource.spi.ConfigProperty;
 import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.event.spi.SaveOrUpdateEvent;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
@@ -22,8 +26,14 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 public class Car extends PanacheEntityBase {
 	
 	@Id
+	@Column(name="CarId")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id;
+	public Long carId;
+	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name="GarageId")
+//	public Garage garage;
+	
 	
 	@Column(name = "CarName" , nullable= false) 
 	public String name;
@@ -33,14 +43,14 @@ public class Car extends PanacheEntityBase {
 	
 	public Car () {}
 	public Car(Long id ,String name, String color) {
-		this.id = id;
+		this.carId = id;
 		this.name = name;
 		this.color = color;
 	}
 	
 	@Override
 	public String toString() {
-		return "Car [id=" + id + ", name=" + name + ", color=" + color + "]";
+		return "Car [id=" + carId + ", name=" + name + ", color=" + color + "]";
 	}
 	public static Car findCarById(Long id) {
 		return findById(id);

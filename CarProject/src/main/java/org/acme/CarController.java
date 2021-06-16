@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.Query;
 
 @Path("/v1/cars")
-public class ExampleResource {
+public class CarController {
 	 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
@@ -39,12 +39,12 @@ public class ExampleResource {
 	
 	@POST
 	@Transactional
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
-	public Response addCar(@QueryParam("name") String name,@QueryParam("color") String color) {
+	public Response addCar(Car newCar) {
 		Car car = new Car();
-		car.color = color;
-		car.name = name;
+		car.color = newCar.color;
+		car.name = newCar.name;
 		car.persist();
 		return Response.ok(car).build();
 	}
