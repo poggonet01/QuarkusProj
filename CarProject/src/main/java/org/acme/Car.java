@@ -16,8 +16,11 @@ import javax.resource.spi.ConfigProperty;
 import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 
+import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.event.spi.SaveOrUpdateEvent;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -27,13 +30,11 @@ public class Car extends PanacheEntityBase {
 	
 	@Id
 	@Column(name="CarId")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long carId;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="GarageId")
-//	public Garage garage;
-	
+	@ManyToOne
+	public Garage garage;
 	
 	@Column(name = "CarName" , nullable= false) 
 	public String name;
@@ -47,7 +48,6 @@ public class Car extends PanacheEntityBase {
 		this.name = name;
 		this.color = color;
 	}
-	
 	@Override
 	public String toString() {
 		return "Car [id=" + carId + ", name=" + name + ", color=" + color + "]";
