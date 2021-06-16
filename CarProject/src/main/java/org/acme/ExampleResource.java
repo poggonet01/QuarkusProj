@@ -21,37 +21,21 @@ import org.jboss.resteasy.annotations.Query;
 
 @Path("/v1/cars")
 public class ExampleResource {
-	private final Car car;
-	
-    @Inject
-    public ExampleResource(Car car) { this.car = car; }
 	 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getCars() {
-		Car car = new Car();
-		List<Car> carList = car.getAllCars();
+		List<Car> carList = Car.getAllCars();
 		return Response.ok(carList).build();
 	}
 	
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/single")
-	public Response getCarByName(@QueryParam("name") String name) {
-		Car car = new Car();
-	    Car newCar =  car.findByName(name);
-		return Response.ok(newCar).build();
-	}
-	
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/single")
+	@Path("/certainCar")
 	public Response getCarById(@QueryParam("id") long id) {
-		Car car = new Car();
-	    Car newCar =  car.findCarById(id);
+	    Car newCar =  Car.findCarById(id);
 		return Response.ok(newCar).build();
 	}
-	
 	
 	@POST
 	@Transactional
@@ -61,8 +45,8 @@ public class ExampleResource {
 		Car car = new Car();
 		car.color = color;
 		car.name = name;
-		Car c = car.saveCar(car);
-		return Response.ok(c).build();
+		car.persist();
+		return Response.ok(car).build();
 	}
 	
 	@DELETE
@@ -70,8 +54,7 @@ public class ExampleResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/delete")
 	public Response deleteCar(@QueryParam("id") Long id ) {
-		Car car = new Car();
-		boolean isDeleted = car.deleteCarById(id);
+		boolean isDeleted = Car.deleteCarById(id);
 		return Response.ok(isDeleted).build();
 	}
 	

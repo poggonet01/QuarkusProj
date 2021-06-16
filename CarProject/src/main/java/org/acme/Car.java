@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.resource.spi.ConfigProperty;
 import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
 
@@ -18,7 +19,6 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
 @Table(name = "CarTypes")
-@ApplicationScoped
 public class Car extends PanacheEntityBase {
 	
 	@Id
@@ -38,38 +38,25 @@ public class Car extends PanacheEntityBase {
 		this.color = color;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "Car [id=" + id + ", name=" + name + ", color=" + color + "]";
 	}
-	public Car findCarById(Long id) {
+	public static Car findCarById(Long id) {
 		return findById(id);
 	}
 	
-	public Car findByName(String name) {
-		return find("name" , name).firstResult();
-	}
-	
-	@Transactional
-	public Car saveCar(Car car) {
-		this.color = car.color;
-		this.name = car.name;
-		persist();
-		return this;
-	}
-	
-	public List<Car> getAllCars() {
+	public static List<Car> getAllCars() {
 		return listAll();
 	}
 	
 	@Transactional
-	public void deleteAllCars() {
+	public static void deleteAllCars() {
 		deleteAll();
 	}
 	
 	@Transactional
-	public boolean deleteCarById(Long id) {
+	public static boolean deleteCarById(Long id) {
 		return deleteById(id);
 	}
 		
