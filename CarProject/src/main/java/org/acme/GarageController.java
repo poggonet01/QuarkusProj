@@ -37,7 +37,10 @@ public class GarageController {
 	public Response getGarageById(@QueryParam("id") long id) {
 		Garage newGarage =  Garage.findGarageById(id);
 		if (newGarage != null) {
-			return Response.ok(newGarage.cars).build();
+			if (!newGarage.cars.isEmpty()) {
+				return Response.ok(newGarage.cars).build();
+			}
+			return Response.ok(newGarage).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).entity("Garage with id=" + id + " doesn't exist").build();
 	}
@@ -89,4 +92,32 @@ public class GarageController {
 		return Response.status(Response.Status.NOT_FOUND).entity("Garage with id=" + garageId + " doesn't exist").build();
 	}
 	
+	@PATCH
+	@Transactional
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("deleteCarFromGarage") 
+	public Response deleteCarFromGarage(@QueryParam("carId")  long carId , @QueryParam("garageId") long garageId ) {
+		Garage newGarage = Garage.findGarageById(garageId);
+		Car car = Car.findCarById(carId);
+		if (newGarage == null) {
+			Response.status(Response.Status.NOT_FOUND).entity("Garage with id=" + garageId + " doesn't exist").build();
+		}
+		if (newGarage.dimension <= newGarage.cars.size()) {
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Garage is full").build();
+		}
+		if (car != null) {
+			newGarage.cars.remove(car);
+			car.garage = null;
+			car.persist();
+			newGarage.persist();
+			if (!newGarage.cars.isEmpty())
+			{
+				return Response.ok(newGarage.cars).build();
+			}
+			return Response.ok(newGarage).build();
+	    }
+		return Response.status(Response.Status.NOT_FOUND).entity("Car with id=" + carId + " doesn't exist").build();
+				
+	}
 }
+	
