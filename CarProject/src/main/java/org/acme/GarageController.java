@@ -25,19 +25,19 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class GarageController {
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getGarages() {
-		List<Garage> carList = Garage.getAllGarages();
-		return Response.ok(carList).build();
+		List<Garage> garagesList = Garage.getAllGarages();
+		return Response.ok(garagesList).build();
 	}
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/certainGarage")
 	public Response getGarageById(@QueryParam("id") long id) {
 		Garage newGarage =  Garage.findGarageById(id);
 		if (newGarage != null) {
-			return Response.ok(newGarage).build();
+			return Response.ok(newGarage.cars).build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).entity("Garage with id=" + id + " doesn't exist").build();
 	}
@@ -56,7 +56,7 @@ public class GarageController {
 	
 	@PATCH
 	@Transactional
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addCar")
 	public Response addCar(@QueryParam("carId") long carId , @QueryParam("garageId") long garageId )  {
 		Garage newGarage = Garage.findGarageById(garageId);
@@ -72,7 +72,7 @@ public class GarageController {
 			car.garage = newGarage;
 			car.persist();
 			newGarage.persist();
-			return Response.ok(newGarage).build();
+			return Response.ok(newGarage.cars).build();
 	    }
 		return Response.status(Response.Status.NOT_FOUND).entity("Car with id=" + carId + " doesn't exist").build();
 	}
@@ -88,4 +88,5 @@ public class GarageController {
 		}
 		return Response.status(Response.Status.NOT_FOUND).entity("Garage with id=" + garageId + " doesn't exist").build();
 	}
+	
 }

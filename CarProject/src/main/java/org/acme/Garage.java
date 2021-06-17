@@ -31,6 +31,7 @@ public class Garage extends PanacheEntityBase {
 	public Long garageId;
 	
 	@OneToMany(mappedBy = "garage", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JsonIgnore
 	public List<Car> cars = new ArrayList<>();
 	
 	@Column(name="GarageDimension" , length = 10)
