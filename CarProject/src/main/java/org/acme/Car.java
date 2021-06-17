@@ -26,6 +26,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
 @Table(name = "CarTypes")
+@ApplicationScoped
 public class Car extends PanacheEntityBase {
 	
 	@Id
@@ -34,6 +35,7 @@ public class Car extends PanacheEntityBase {
 	public Long carId;
 	
 	@ManyToOne
+	@JoinColumn(name="GarId")
 	public Garage garage;
 	
 	@Column(name = "CarName" , nullable= false) 

@@ -3,6 +3,7 @@ package org.acme;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
 @Table(name="GarageTable")
+@ApplicationScoped
 public class Garage extends PanacheEntityBase {
 	
 	@Id
@@ -30,7 +32,7 @@ public class Garage extends PanacheEntityBase {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long garageId;
 	
-	@OneToMany(mappedBy = "garage", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "garage", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore
 	public List<Car> cars = new ArrayList<>();
 	

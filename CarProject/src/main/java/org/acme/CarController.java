@@ -24,6 +24,13 @@ import org.jboss.resteasy.annotations.Query;
 
 @Path("/v1/cars")
 public class CarController {
+	
+	private final Car car;
+	
+	@Inject
+	public CarController(Car car) {
+		this.car = car;
+	}
 	 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -48,10 +55,7 @@ public class CarController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
 	public Response addCar(Car newCar) {
-		Car car = new Car();
-		car.color = newCar.color;
-		car.name = newCar.name;
-		car.persist();
+		car.persist(newCar);
 		return Response.ok(car).build();
 	}
 	

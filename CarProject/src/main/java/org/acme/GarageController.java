@@ -3,6 +3,7 @@ package org.acme;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,6 +24,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Path("v1/garages")
 public class GarageController {
+	
+	private final Garage garage;
+	
+	@Inject
+	public GarageController(Garage garage) {
+		this.garage = garage;
+	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -49,12 +57,9 @@ public class GarageController {
 	@Transactional
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addGarage")
-	public Response addGarage(Garage garage) {
-		Garage newGarage = new Garage();
-		newGarage.cars = garage.cars;
-		newGarage.dimension = garage.dimension;
-		garage.persist();
-		return Response.ok(newGarage).build();
+	public Response addGarage(Garage newGarage) {
+		garage.persist(newGarage);
+		return Response.ok(garage).build();
 	}
 	
 	@PATCH
