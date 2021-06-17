@@ -7,8 +7,10 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -24,20 +26,23 @@ import org.jboss.resteasy.annotations.Query;
 public class CarController {
 	 
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCars() {
 		List<Car> carList = Car.getAllCars();
 		return Response.ok(carList).build();
 	}
 	
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/certainCar")
 	public Response getCarById(@QueryParam("id") long id) {
 	    Car newCar =  Car.findCarById(id);
-		return Response.ok(newCar).build();
+	    if (newCar != null) {
+	    	return Response.ok(newCar).build();
+	    }
+	    return Response.status(Response.Status.NOT_FOUND).entity("Car with id=" + id + " doesn't exist").build();
 	}
-	
 	@POST
 	@Transactional
 	@Produces(MediaType.APPLICATION_JSON)
@@ -50,24 +55,31 @@ public class CarController {
 		return Response.ok(car).build();
 	}
 	
-	@PUT
+	@PATCH
 	@Transactional
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/modify")
 	public Response changeColor(@QueryParam("id") long id , @QueryParam("color") String color) {
 		Car newCar = Car.findCarById(id);
-		newCar.color = color;
-		newCar.persist();
-		return Response.ok(newCar).build();
+		if (newCar != null) {
+			newCar.color = color;
+			newCar.persist();
+			return Response.ok(newCar).build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).entity("Car with id=" + id + " doesn't exist").build();
 	}
 	
 	@DELETE
 	@Transactional
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
 	@Path("/delete")
 	public Response deleteCar(@QueryParam("id") Long id ) {
 		boolean isDeleted = Car.deleteCarById(id);
-		return Response.ok(isDeleted).build();
+		if (isDeleted) {
+			return Response.ok(isDeleted).build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).entity("Car with id=" + id + " doesn't exist").build();
 	}
 	
 }

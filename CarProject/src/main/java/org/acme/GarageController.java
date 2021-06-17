@@ -1,18 +1,25 @@
 package org.acme;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.transaction.Transactional;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 
 @Path("v1/garages")
 public class GarageController {
@@ -29,7 +36,10 @@ public class GarageController {
 	@Path("/certainGarage")
 	public Response getGarageById(@QueryParam("id") long id) {
 		Garage newGarage =  Garage.findGarageById(id);
-		return Response.ok(newGarage).build();
+		if (newGarage != null) {
+			return Response.ok(newGarage).build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).entity("Garage with id=" + id + " doesn't exist").build();
 	}
 	
 	@POST
@@ -44,23 +54,27 @@ public class GarageController {
 		return Response.ok(newGarage).build();
 	}
 	
-	@PUT
+	@PATCH
 	@Transactional
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/addCar")
-	public Response addCar(@QueryParam("carId") long carId , @QueryParam("garageId") long garageId ) {
+	public Response addCar(@QueryParam("carId") long carId , @QueryParam("garageId") long garageId )  {
 		Garage newGarage = Garage.findGarageById(garageId);
+		Car car = Car.findCarById(carId);
+		if (newGarage == null) {
+			Response.status(Response.Status.NOT_FOUND).entity("Garage with id=" + garageId + " doesn't exist").build();
+		}
 		if (newGarage.dimension <= newGarage.cars.size()) {
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Garage is full").build();
 		}
-		Car car = Car.findCarById(carId);
 		if (car != null) {
 			newGarage.cars.add(car);
 			car.garage = newGarage;
 			car.persist();
 			newGarage.persist();
-		}
-		return Response.ok(newGarage).build();
+			return Response.ok(newGarage).build();
+	    }
+		return Response.status(Response.Status.NOT_FOUND).entity("Car with id=" + carId + " doesn't exist").build();
 	}
 	
 	@DELETE
@@ -69,6 +83,9 @@ public class GarageController {
 	@Path("deleteGarage")
 	public Response deleteGarage(@QueryParam("garageId") long garageId) {
 		boolean isDeleted = Garage.deleteById(garageId);
-		return Response.ok(isDeleted).build();
+		if (isDeleted) {
+			return Response.ok(isDeleted).build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).entity("Garage with id=" + garageId + " doesn't exist").build();
 	}
 }
