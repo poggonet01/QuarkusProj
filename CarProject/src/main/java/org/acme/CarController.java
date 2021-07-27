@@ -58,7 +58,8 @@ public class CarController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/add")
 	public Response addCar(Car newCar) {
-		car.persist(newCar);
+		//car.persist(newCar);
+		System.out.println("dawda");
 		return Response.ok(car).build();
 	}
 	
@@ -67,7 +68,7 @@ public class CarController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/modify")
 	public Response changeColor(@QueryParam("id") long id , @QueryParam("color") String color) {
-		//Car newCar = Car.findCarById(id);
+		Car newCar = Car.findCarById(id);
 		if (newCar != null) {
 			newCar.color = color;
 			newCar.persist();
