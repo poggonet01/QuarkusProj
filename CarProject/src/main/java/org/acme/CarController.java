@@ -45,6 +45,9 @@ public class CarController {
 	@Path("/certainCar")
 	public Response getCarById(@QueryParam("id") long id) {
 	    Car newCar =  Car.findCarById(id);
+		Car newCar1 = newCar;
+		List<Car> carss = new ArrayList<>();
+		System.out.println("dawdaw");
 	    if (newCar != null) {
 	    	return Response.ok(newCar).build();
 	    }
@@ -64,13 +67,13 @@ public class CarController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/modify")
 	public Response changeColor(@QueryParam("id") long id , @QueryParam("color") String color) {
-		Car newCar = Car.findCarById(id);
+		//Car newCar = Car.findCarById(id);
 		if (newCar != null) {
 			newCar.color = color;
 			newCar.persist();
 			return Response.ok(newCar).build();
 		}
-		return Response.status(Response.Status.NOT_FOUND).entity("Car with id=" + id + " doesn't exist").build();
+		return Response.status(Response.Status.NOT_FOUND).entity("" + id + " doesn't exist").build();
 	}
 	
 	@DELETE
@@ -83,7 +86,6 @@ public class CarController {
 		if (isDeleted) {
 			return Response.ok(isDeleted).build();
 		}
-		return Response.status(Response.Status.NOT_FOUND).entity("Car with id=" + id + " doesn't exist").build();
 	}
 	
 }
