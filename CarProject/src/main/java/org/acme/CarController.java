@@ -71,9 +71,10 @@ public class CarController {
 		Car newCar = Car.findCarById(id);
 		if (newCar != null) {
 			newCar.color = color;
-			newCar.persist();
+			//newCar.persist();
 			return Response.ok(newCar).build();
 		}
+		int k = 2;
 		return Response.status(Response.Status.NOT_FOUND).entity("" + id + " doesn't exist").build();
 	}
 	
