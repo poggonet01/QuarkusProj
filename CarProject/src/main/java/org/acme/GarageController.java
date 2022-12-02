@@ -37,6 +37,7 @@ public class GarageController {
 	public Response getGarages() {
 		System.out.println("try other things");
 		List<Garage> garagesList = Garage.getAllGarages();
+		System.out.println("dawdawdawdaw");
 		return Response.ok(garagesList).build();
 	}
 	
