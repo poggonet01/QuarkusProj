@@ -36,6 +36,7 @@ public class CarController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCars() {
 		List<Car> carList = Car.getAllCars();
+		System.out.println("Dawd");
 		return Response.ok(carList).build();
 	}
 	
