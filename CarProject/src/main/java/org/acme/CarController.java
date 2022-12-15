@@ -46,6 +46,7 @@ public class CarController {
 	@Path("/certainCar")
 	public Response getCarById(@QueryParam("id") long id) {
 		System.out.println("second change");
+		System.out.println("third change");
 	    Car newCar =  Car.findCarById(id);
 	    if (newCar != null) {
 	    	return Response.ok(newCar).build();
