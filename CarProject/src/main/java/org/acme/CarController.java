@@ -45,7 +45,6 @@ public class CarController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/certainCar")
 	public Response getCarById(@QueryParam("id") long id) {
-		System.out.println("first change");
 		System.out.println("second change");
 	    Car newCar =  Car.findCarById(id);
 	    if (newCar != null) {
