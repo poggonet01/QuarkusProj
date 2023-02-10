@@ -50,6 +50,7 @@ public class CarController {
 		Car newCar1 = newCar;
 		List<Car> carss = new ArrayList<>();
 		System.out.println("dawdaw");
+
 		System.out.println("new release update");
 	    if (newCar != null) {
 	    	return Response.ok(newCar).build();
