@@ -37,6 +37,7 @@ public class CarController {
 	public Response getCars() {
 		System.out.println("Dawdaw");
 		System.out.println("new release");
+
 		List<Car> carList = Car.getAllCars();
 		return Response.ok(carList).build();
 	}
