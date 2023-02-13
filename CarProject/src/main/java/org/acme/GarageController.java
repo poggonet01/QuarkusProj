@@ -35,7 +35,7 @@ public class GarageController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getGarages() {
-		System.out.println("try other things");
+		System.out.println("try other things111");
 		List<Garage> garagesList = Garage.getAllGarages();
 		System.out.println("dawdawdawdaw");
 		return Response.ok(garagesList).build();
