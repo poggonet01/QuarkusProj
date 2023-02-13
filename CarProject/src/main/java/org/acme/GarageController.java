@@ -43,7 +43,7 @@ public class GarageController {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/certainGarage")
+	@Path("/certainGarageaaaaaaa")
 	public Response getGarageById(@QueryParam("id") long id) {
 		Garage newGarage =  Garage.findGarageById(id);
 		if (newGarage != null) {
