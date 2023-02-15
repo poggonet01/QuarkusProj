@@ -48,7 +48,7 @@ public class CarController {
 	    Car newCar =  Car.findCarById(id);
 		Car newCar1 = newCar;
 		List<Car> carss = new ArrayList<>();
-		System.out.println("dawdaw");
+		System.out.println("feature2");
 	    if (newCar != null) {
 	    	return Response.ok(newCar).build();
 	    }
