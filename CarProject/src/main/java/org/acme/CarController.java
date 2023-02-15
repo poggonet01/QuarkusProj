@@ -47,7 +47,6 @@ public class CarController {
 	    Car newCar =  Car.findCarById(id);
 		Car newCar1 = newCar;
 		List<Car> carss = new ArrayList<>();
-		System.out.println("dawdaw");
 	    if (newCar != null) {
 	    	return Response.ok(newCar).build();
 	    }
@@ -59,7 +58,6 @@ public class CarController {
 	@Path("/add")
 	public Response addCar(Car newCar) {
 		car.persist(newCar);
-		System.out.println("dawda");
 		return Response.ok(car).build();
 	}
 	
