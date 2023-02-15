@@ -46,7 +46,6 @@ public class CarController {
 	public Response getCarById(@QueryParam("id") long id) {
 	    Car newCar =  Car.findCarById(id);
 		Car newCar1 = newCar;
-		List<Car> carss = new ArrayList<>();
 	    if (newCar != null) {
 	    	return Response.ok(newCar).build();
 	    }
@@ -69,7 +68,6 @@ public class CarController {
 		Car newCar = Car.findCarById(id);
 		if (newCar != null) {
 			newCar.color = color;
-			//newCar.persist();
 			return Response.ok(newCar).build();
 		}
 		int k = 2;
