@@ -86,6 +86,7 @@ public class CarController {
 	public Response deleteCar(@QueryParam("id") Long id ) {
 		boolean isDeleted = Car.deleteCarById(id);
 		if (isDeleted) {
+			System.out.println("mvmmvm");
 			return Response.ok(isDeleted).build();
 		}
 		return Response.noContent().build();
