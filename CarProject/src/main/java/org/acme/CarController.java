@@ -87,6 +87,7 @@ public class CarController {
 		boolean isDeleted = Car.deleteCarById(id);
 		if (isDeleted) {
 			System.out.println("mvmmvm");
+			System.out.println("DDDDDDDDDaw");
 			return Response.ok(isDeleted).build();
 		}
 		return Response.noContent().build();
