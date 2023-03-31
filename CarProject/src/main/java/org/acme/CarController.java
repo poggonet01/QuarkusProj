@@ -88,6 +88,7 @@ public class CarController {
 		if (isDeleted) {
 			return Response.ok(isDeleted).build();
 		}
+		return Response.noContent().build();
 	}
 	
 }
