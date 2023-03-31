@@ -46,6 +46,7 @@ public class CarController {
 	public Response getCarById(@QueryParam("id") long id) {
 	    Car newCar =  Car.findCarById(id);
 		Car newCar1 = newCar;
+		System.out.println("mmmmmmm");
 		List<Car> carss = new ArrayList<>();
 		System.out.println("dawdaw");
 	    if (newCar != null) {
