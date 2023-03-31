@@ -90,6 +90,7 @@ public class CarController {
 			System.out.println("DDDDDDDDDaw");
 			return Response.ok(isDeleted).build();
 		}
+		System.out.println("mawdawdaw");
 		return Response.noContent().build();
 	}
 	
