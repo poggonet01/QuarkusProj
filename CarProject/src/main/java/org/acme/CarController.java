@@ -45,6 +45,7 @@ public class CarController {
 	@Path("/certainCar")
 	public Response getCarById(@QueryParam("id") long id) {
 	    Car newCar =  Car.findCarById(id);
+		System.out.println("Ddddddddddddddddddddddddddddddddddddddddddddddddddd");
 		Car newCar1 = newCar;
 		List<Car> carss = new ArrayList<>();
 		System.out.println("dawdaw");
