@@ -31,7 +31,7 @@ public class Car extends PanacheEntityBase {
 	
 	@Id
 	@Column(name="CarId")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long carId;
 	
 	@ManyToOne
