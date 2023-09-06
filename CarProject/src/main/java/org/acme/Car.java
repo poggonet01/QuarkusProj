@@ -33,8 +33,6 @@ public class Car extends PanacheEntityBase {
 	@Column(name="CarId")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long carId;
-
-	public String x;
 	
 	@ManyToOne
 	@JoinColumn(name="GarId")
