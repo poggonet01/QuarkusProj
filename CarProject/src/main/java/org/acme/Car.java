@@ -28,7 +28,9 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 @Table(name = "CarTypes")
 @ApplicationScoped
 public class Car extends PanacheEntityBase {
-	
+
+	private int y;
+
 	@Id
 	@Column(name="CarId")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

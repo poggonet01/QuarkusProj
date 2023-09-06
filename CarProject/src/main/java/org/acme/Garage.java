@@ -31,6 +31,8 @@ public class Garage extends PanacheEntityBase {
 	@Column(name = "GarId")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long garageId;
+
+	private int k;
 	
 	@OneToMany(mappedBy = "garage", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore
