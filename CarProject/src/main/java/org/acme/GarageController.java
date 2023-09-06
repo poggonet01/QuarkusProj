@@ -61,6 +61,7 @@ public class GarageController {
 	@Path("/addGarage")
 	public Response addGarage(Garage newGarage) {
 		garage.persist(newGarage);
+		System.out.println("Some other new commit1");
 		return Response.ok(garage).build();
 	}
 	
