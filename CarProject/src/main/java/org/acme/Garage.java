@@ -32,7 +32,7 @@ public class Garage extends PanacheEntityBase {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long garageId;
 
-	private int x;
+	private int k;
 	
 	@OneToMany(mappedBy = "garage", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore
